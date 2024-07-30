@@ -13,6 +13,7 @@ def question_ollama(
     md=True,
     repeat_last=64,
     temperature=0.8,
+    return_response=False,
 ):
     response = ollama.chat(
         model=model,
@@ -29,7 +30,9 @@ def question_ollama(
         for chunk in response:
             print(chunk["message"]["content"], end="", flush=True)
     else:
-        if md:
+        if return_response:
+            return response["message"]["content"]
+        elif md:
             display(Markdown(response["message"]["content"]))
         else:
             print(response["message"]["content"])
